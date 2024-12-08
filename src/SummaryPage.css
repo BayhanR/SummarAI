@@ -1,0 +1,83 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+body {
+    font-family: Arial, sans-serif;
+    margin: 0;
+    padding: 0;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 100vh;
+    background-color: #f5f5f5;
+  }
+  
+  .container {
+
+    width: 100%;
+    max-width: 800px;
+    background: #fff;
+    padding: 20px;
+    border-radius: 8px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  }
+  
+  .header {
+    text-align: center;
+    margin-bottom: 20px;
+  }
+  
+  .translate-section {
+    display: flex;
+    gap: 15px; 
+    justify-content: space-between;
+
+  }
+  
+  .input-text, .output-text {
+    flex: 1; 
+    height: 150px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    padding: 10px;
+    font-size: 16px;
+    resize: none;
+    min-width: 300px; 
+  }
+  
+  .output-text {
+    background-color: #f0f0f0;
+  }
+  
+  .controls {
+    display: flex;
+    justify-content: center;
+    margin-top: 20px;
+  }
+  
+  .translate-btn {
+    padding: 10px 20px;
+    background-color: #4285f4;
+    color: white;
+    border: none;
+    border-radius: 4px;
+    font-size: 16px;
+    cursor: pointer;
+  }
+  
+  .translate-btn:hover {
+    background-color: #357ae8;
+  }
+  
+  @media (max-width: 768px) {
+    .translate-section {
+      flex-direction: column; /* Mobilde kutucuklar alt alta dizilir */
+    }
+  
+    .input-text, .output-text {
+      min-width: auto; 
+      width: 100%;
+    }
+  }
+  

@@ -1,0 +1,139 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+
+body {
+    font-family: 'Merriweather Sans', sans-serif;
+    background-color: #ebe7ee;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
+    padding-top: 50px;
+  }
+  .container {
+    width: 70vw; /* Ekranın %70'ini kaplasın */
+    height: 60vh; /* Ekranın %60'ı kadar yükseklik */
+    position: relative;
+    perspective: 800px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin-top: 10%; /* Kartı biraz daha yukarı al */
+  }
+  
+  #card {
+    width: 100%;
+    height: 100%;
+    position: absolute;
+    transform-style: preserve-3d;
+  }
+  
+  figure {
+    margin: 0;
+    display: block;
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    backface-visibility: hidden;
+    overflow: hidden;
+  }
+  
+  img {
+    position: absolute;
+    top: 0px;
+    left: 0;
+  }
+  
+  .front figcaption, .back figcaption {
+    position: absolute;
+    top: 100px;
+    left: 0;
+    padding: 5px 10px;
+  }
+  
+  .front figcaption {
+    background-color: white;
+  }
+  
+  .back figcaption {
+    color: white;
+  }
+  
+  .button {
+    position: absolute;
+    right: 10px;
+    top: 10px;
+    height: 25px;
+    width: 25px;
+    text-align: center;
+    border-radius: 20px;
+    display: block;
+    padding: 5px;
+    background-color: #999;
+    cursor: pointer;
+    font-weight: 900;
+    color: white;
+  }
+  
+  .front,
+  .back {
+    transition: transform 1s;
+  }
+  
+  .front {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background: white;
+    height: 100%;
+  }
+  
+  .back {
+    background: #444;
+    transform: rotateY(180deg);
+  }
+  
+  .BTback .front {
+    transform: rotateY(-180deg);
+  }
+  
+  .BTback .back {
+    transform: rotateY(0deg);
+  }
+
+  textarea {
+    width: 85%;
+    height: 75%;
+    padding: 10px;
+    font-size: 16px;
+    border: 2px solid #ccc;
+    border-radius: 5px;
+    text-align: center; /* Yatayda ortalama */
+    line-height: 2; /* Satır yüksekliği artırarak biraz daha aşağıya alabilirsiniz */
+    resize: none; /* Kullanıcının boyutlandırmasını engellemek için */
+    overflow: auto; /* Taşmayı yönetmek için */
+    margin-bottom: 2%;
+  }
+  
+  
+  .input-container {
+    position: absolute;
+    top: 50%; /* Yüksekliğin %50'sinde */
+    left: 50%; /* Yatayda %50'sinde */
+    transform: translate(-50%, -50%); /* Tam merkezlemek için */
+    width: 60%; /* Textarea'nın genişliği */
+  }
+  #pasteButton {
+    position: absolute;
+    bottom: 20px;
+    left: 50%;
+    transform: translateX(-50%);
+    
+    padding: 10px 20px;
+    background-color: #3498db;
+    color: white;
+    border: none;
+    cursor: pointer;
+  }
