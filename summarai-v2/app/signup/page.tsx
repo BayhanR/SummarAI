@@ -7,12 +7,15 @@ import { motion } from "framer-motion"
 import { zodResolver } from "@hookform/resolvers/zod"
 import { useForm } from "react-hook-form"
 import * as z from "zod"
-import { Button } from "@/src/components/ui/button"
-import { Input } from "@/src/components/ui/input"
-import { toast } from "@/src/hooks/use-toast"
-import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from "@/src/components/ui/form"
+import { Button } from "@/components/ui/button"
+import { Input } from "@/components/ui/input"
+import { toast } from "@/components/ui/use-toast"
+import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from "@/components/ui/form"
 
 const formSchema = z.object({
+  username: z.string().min(2, {
+    message: "Kullanıcı adı en az 2 karakter olmalıdır.",
+  }),
   email: z.string().email({
     message: "Geçerli bir e-posta adresi giriniz.",
   }),
@@ -21,13 +24,14 @@ const formSchema = z.object({
   }),
 })
 
-export default function SignInPage() {
+export default function SignUpPage() {
   const router = useRouter()
   const [isLoading, setIsLoading] = useState(false)
 
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
     defaultValues: {
+      username: "",
       email: "",
       password: "",
     },
@@ -37,18 +41,18 @@ export default function SignInPage() {
     setIsLoading(true)
 
     try {
-      // Burada gerçek giriş işlemini yapacaksınız
+      // Burada gerçek kayıt işlemini yapacaksınız
       await new Promise((resolve) => setTimeout(resolve, 2000))
 
       toast({
-        title: "Giriş Başarılı!",
-        description: "Hoş geldiniz!",
+        title: "Kayıt Başarılı!",
+        description: "Hesabınız başarıyla oluşturuldu.",
       })
       router.push("/")
     } catch (error) {
       toast({
         title: "Hata!",
-        description: "Giriş sırasında bir hata oluştu. Lütfen tekrar deneyin.",
+        description: "Kayıt sırasında bir hata oluştu. Lütfen tekrar deneyin.",
         variant: "destructive",
       })
     } finally {
@@ -63,9 +67,22 @@ export default function SignInPage() {
       transition={{ duration: 0.5 }}
       className="flex min-h-screen flex-col items-center justify-center p-24"
     >
-      <h1 className="text-3xl font-bold mb-6 text-primary">Giriş Yap</h1>
+      <h1 className="text-3xl font-bold mb-6 text-primary">Kayıt Ol</h1>
       <Form {...form}>
         <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-8 w-[300px]">
+          <FormField
+            control={form.control}
+            name="username"
+            render={({ field }) => (
+              <FormItem>
+                <FormLabel>Kullanıcı Adı</FormLabel>
+                <FormControl>
+                  <Input placeholder="johndoe" {...field} />
+                </FormControl>
+                <FormMessage />
+              </FormItem>
+            )}
+          />
           <FormField
             control={form.control}
             name="email"
@@ -93,14 +110,14 @@ export default function SignInPage() {
             )}
           />
           <Button type="submit" className="w-full" disabled={isLoading}>
-            {isLoading ? "Giriş Yapılıyor..." : "Giriş Yap"}
+            {isLoading ? "Kaydediliyor..." : "Kayıt Ol"}
           </Button>
         </form>
       </Form>
       <p className="mt-4 text-muted-foreground">
-        Hesabınız yok mu?{" "}
-        <Link href="/signup" className="text-primary hover:underline">
-          Hesap oluştur
+        Zaten hesabınız var mı?{" "}
+        <Link href="/signin" className="text-primary hover:underline">
+          Giriş yap
         </Link>
       </p>
     </motion.div>

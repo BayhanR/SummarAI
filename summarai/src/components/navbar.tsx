@@ -8,7 +8,7 @@ export function Navbar() {
   const pathname = usePathname()
 
   return (
-    <nav className="flex justify-between items-center p-4 bg-gray-100">
+    <nav className="flex justify-between items-center p-4 bg-gray-1000">
       <Link href="/" className="text-xl font-bold">
         Summarai
       </Link>
