@@ -59,47 +59,50 @@ export function AuthProvider({ children }: { children: ReactNode }) {
   const register = async (username: string, email: string, password: string): Promise<boolean> => {
     setIsLoading(true)
     try {
-      // Log registration attempt
-      console.log('Registration attempt:', { email });
+        // Log initial registration attempt
+        console.log('🚀 Registration Started:', { username, email });
 
-      // Simulate API call
-      await new Promise((resolve) => setTimeout(resolve, 1000))
+        // Simulate API call
+        await new Promise((resolve) => setTimeout(resolve, 1000))
 
-      // Check if user already exists
-      const users = JSON.parse(localStorage.getItem("users") || "[]")
-      const userExists = users.some((u: any) => u.email === email)
+        // Get existing users and log current storage state
+        const users = JSON.parse(localStorage.getItem("users") || "[]")
+        console.log('📦 Current Users in Storage:', users);
 
-      if (userExists) {
-        return false
-      }
+        // Check if user already exists
+        const userExists = users.some((u: any) => u.email === email)
+        if (userExists) {
+            console.log('❌ Registration Failed: User already exists');
+            return false
+        }
 
-      // Create new user
-      const newUser = {
-        id: Date.now().toString(),
-        username,
-        email,
-        password,
-      }
+        // Create new user
+        const newUser = {
+            id: Date.now().toString(),
+            username,
+            email,
+            password,
+        }
+        console.log('👤 New User Created:', { ...newUser, password: '***' });
 
-      // Save user to localStorage
-      users.push(newUser)
-      localStorage.setItem("users", JSON.stringify(users))
+        // Save user to localStorage
+        users.push(newUser)
+        localStorage.setItem("users", JSON.stringify(users))
+        console.log('💾 Users Saved to Storage');
 
-      // Log in the user
-      const { password: _, ...userWithoutPassword } = newUser
-      setUser(userWithoutPassword)
-      localStorage.setItem("user", JSON.stringify(userWithoutPassword))
+        // Log in the user
+        const { password: _, ...userWithoutPassword } = newUser
+        setUser(userWithoutPassword)
+        localStorage.setItem("user", JSON.stringify(userWithoutPassword))
+        console.log('✅ User Logged In:', userWithoutPassword);
 
-      // Log successful registration
-      console.log('Registration successful:', { email });
-
-      return true
+        return true
     } catch (error) {
-      console.error('Registration failed:', error);
-      console.error("Register error:", error)
-      return false
+        console.error('❌ Registration Error:', error);
+        return false
     } finally {
-      setIsLoading(false)
+        setIsLoading(false)
+        console.log('🏁 Registration Process Completed');
     }
   }
 
