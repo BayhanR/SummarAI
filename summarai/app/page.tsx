@@ -2,9 +2,9 @@
 
 import { useState } from "react"
 import { motion } from "framer-motion"
-import { Button } from "@/components/ui/button"
-import { Textarea } from "@/components/ui/textarea"
-import { toast } from "@/hooks/use-toast"
+import { Button } from "@/src/components/ui/button"
+import { Textarea } from "@/src/components/ui/textarea"
+import { toast } from "@/src/hooks/use-toast"
 import { Copy, ClipboardPasteIcon as Paste } from "lucide-react"
 
 export default function Home() {
