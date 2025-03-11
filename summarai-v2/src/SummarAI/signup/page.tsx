@@ -9,12 +9,16 @@ import { useForm } from "react-hook-form"
 import * as z from "zod"
 import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
-import { toast } from "@/hooks/use-toast"
+import { toast } from "@/components/ui/use-toast"
 import { Loader2 } from "lucide-react"
+import { useAuth } from "@/contexts/auth-context"
 import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from "@/components/ui/form"
 import { Card, CardContent, CardHeader, CardTitle, CardDescription, CardFooter } from "@/components/ui/card"
 
 const formSchema = z.object({
+  username: z.string().min(2, {
+    message: "Kullanıcı adı en az 2 karakter olmalıdır.",
+  }),
   email: z.string().email({
     message: "Geçerli bir e-posta adresi giriniz.",
   }),
@@ -23,13 +27,15 @@ const formSchema = z.object({
   }),
 })
 
-export default function SignInPage() {
+export default function SignUpPage() {
   const router = useRouter()
+  const { register } = useAuth()
   const [isLoading, setIsLoading] = useState(false)
 
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
     defaultValues: {
+      username: "",
       email: "",
       password: "",
     },
@@ -39,18 +45,25 @@ export default function SignInPage() {
     setIsLoading(true)
 
     try {
-      // Burada gerçek giriş işlemini yapacaksınız
-      await new Promise((resolve) => setTimeout(resolve, 2000))
+      const success = await register(values.username, values.email, values.password)
 
-      toast({
-        title: "Giriş Başarılı!",
-        description: "Hoş geldiniz!",
-      })
-      router.push("/")
+      if (success) {
+        toast({
+          title: "Kayıt Başarılı!",
+          description: "Hesabınız başarıyla oluşturuldu.",
+        })
+        router.push("/")
+      } else {
+        toast({
+          title: "Kayıt Başarısız!",
+          description: "Bu e-posta adresi zaten kullanılıyor.",
+          variant: "destructive",
+        })
+      }
     } catch (error) {
       toast({
         title: "Hata!",
-        description: "Giriş sırasında bir hata oluştu. Lütfen tekrar deneyin.",
+        description: "Kayıt sırasında bir hata oluştu. Lütfen tekrar deneyin.",
         variant: "destructive",
       })
     } finally {
@@ -68,14 +81,27 @@ export default function SignInPage() {
       >
         <Card className="border-2">
           <CardHeader className="space-y-1">
-            <CardTitle className="text-2xl font-bold text-center">Giriş Yap</CardTitle>
+            <CardTitle className="text-2xl font-bold text-center">Hesap Oluştur</CardTitle>
             <CardDescription className="text-center">
-              Hesabınıza giriş yaparak özetleme işlemlerine devam edin
+              Yeni bir hesap oluşturarak özetleme özelliklerine erişin
             </CardDescription>
           </CardHeader>
           <CardContent>
             <Form {...form}>
               <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-4">
+                <FormField
+                  control={form.control}
+                  name="username"
+                  render={({ field }) => (
+                    <FormItem>
+                      <FormLabel>Kullanıcı Adı</FormLabel>
+                      <FormControl>
+                        <Input placeholder="kullaniciadi" {...field} />
+                      </FormControl>
+                      <FormMessage />
+                    </FormItem>
+                  )}
+                />
                 <FormField
                   control={form.control}
                   name="email"
@@ -106,25 +132,20 @@ export default function SignInPage() {
                   {isLoading ? (
                     <>
                       <Loader2 className="mr-2 h-4 w-4 animate-spin" />
-                      Giriş Yapılıyor...
+                      Kaydediliyor...
                     </>
                   ) : (
-                    "Giriş Yap"
+                    "Kayıt Ol"
                   )}
                 </Button>
               </form>
             </Form>
           </CardContent>
-          <CardFooter className="flex flex-col">
-            <div className="mt-2 text-center text-sm">
-              <Link href="#" className="text-blue-600 hover:underline">
-                Şifrenizi mi unuttunuz?
-              </Link>
-            </div>
-            <div className="mt-4 text-center text-sm">
-              Hesabınız yok mu?{" "}
-              <Link href="/signup" className="text-blue-600 hover:underline">
-                Hesap oluştur
+          <CardFooter>
+            <div className="mt-4 text-center text-sm w-full">
+              Zaten hesabınız var mı?{" "}
+              <Link href="/signin" className="text-blue-600 hover:underline">
+                Giriş yap
               </Link>
             </div>
           </CardFooter>

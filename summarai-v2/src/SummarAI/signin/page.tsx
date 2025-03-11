@@ -9,8 +9,9 @@ import { useForm } from "react-hook-form"
 import * as z from "zod"
 import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
-import { toast } from "@/hooks/use-toast"
+import { toast } from "@/components/ui/use-toast"
 import { Loader2 } from "lucide-react"
+import { useAuth } from "@/contexts/auth-context"
 import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from "@/components/ui/form"
 import { Card, CardContent, CardHeader, CardTitle, CardDescription, CardFooter } from "@/components/ui/card"
 
@@ -25,6 +26,7 @@ const formSchema = z.object({
 
 export default function SignInPage() {
   const router = useRouter()
+  const { login } = useAuth()
   const [isLoading, setIsLoading] = useState(false)
 
   const form = useForm<z.infer<typeof formSchema>>({
@@ -39,14 +41,21 @@ export default function SignInPage() {
     setIsLoading(true)
 
     try {
-      // Burada gerçek giriş işlemini yapacaksınız
-      await new Promise((resolve) => setTimeout(resolve, 2000))
+      const success = await login(values.email, values.password)
 
-      toast({
-        title: "Giriş Başarılı!",
-        description: "Hoş geldiniz!",
-      })
-      router.push("/")
+      if (success) {
+        toast({
+          title: "Giriş Başarılı!",
+          description: "Hoş geldiniz!",
+        })
+        router.push("/")
+      } else {
+        toast({
+          title: "Giriş Başarısız!",
+          description: "E-posta veya şifre hatalı.",
+          variant: "destructive",
+        })
+      }
     } catch (error) {
       toast({
         title: "Hata!",
