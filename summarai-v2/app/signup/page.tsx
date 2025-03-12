@@ -7,10 +7,13 @@ import { motion } from "framer-motion"
 import { zodResolver } from "@hookform/resolvers/zod"
 import { useForm } from "react-hook-form"
 import * as z from "zod"
-import { Button } from "@/components/ui/button"
-import { Input } from "@/components/ui/input"
-import { toast } from "@/hooks/use-toast"
-import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from "@/components/ui/form"
+import { Button } from "@/app/components/ui/button"
+import { Input } from "@/app/components/ui/input"
+import { toast } from "@/app/hooks/use-toast"
+import { Loader2 } from "lucide-react"
+import { useAuth } from "@/app/contexts/auth-context"
+import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from "@/app/components/ui/form"
+import { Card, CardContent, CardHeader, CardTitle, CardDescription, CardFooter } from "@/app/components/ui/card"
 
 const formSchema = z.object({
   username: z.string().min(2, {
@@ -26,6 +29,7 @@ const formSchema = z.object({
 
 export default function SignUpPage() {
   const router = useRouter()
+  const { register } = useAuth()
   const [isLoading, setIsLoading] = useState(false)
 
   const form = useForm<z.infer<typeof formSchema>>({
@@ -41,14 +45,21 @@ export default function SignUpPage() {
     setIsLoading(true)
 
     try {
-      // Burada gerçek kayıt işlemini yapacaksınız
-      await new Promise((resolve) => setTimeout(resolve, 2000))
+      const success = await register(values.username, values.email, values.password)
 
-      toast({
-        title: "Kayıt Başarılı!",
-        description: "Hesabınız başarıyla oluşturuldu.",
-      })
-      router.push("/")
+      if (success) {
+        toast({
+          title: "Kayıt Başarılı!",
+          description: "Hesabınız başarıyla oluşturuldu.",
+        })
+        router.push("/")
+      } else {
+        toast({
+          title: "Kayıt Başarısız!",
+          description: "Bu e-posta adresi zaten kullanılıyor.",
+          variant: "destructive",
+        })
+      }
     } catch (error) {
       toast({
         title: "Hata!",
@@ -61,66 +72,86 @@ export default function SignUpPage() {
   }
 
   return (
-    <motion.div
-      initial={{ opacity: 0, y: 20 }}
-      animate={{ opacity: 1, y: 0 }}
-      transition={{ duration: 0.5 }}
-      className="flex min-h-screen flex-col items-center justify-center p-24"
-    >
-      <h1 className="text-3xl font-bold mb-6 text-primary">Kayıt Ol</h1>
-      <Form {...form}>
-        <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-8 w-[300px]">
-          <FormField
-            control={form.control}
-            name="username"
-            render={({ field }) => (
-              <FormItem>
-                <FormLabel>Kullanıcı Adı</FormLabel>
-                <FormControl>
-                  <Input placeholder="johndoe" {...field} />
-                </FormControl>
-                <FormMessage />
-              </FormItem>
-            )}
-          />
-          <FormField
-            control={form.control}
-            name="email"
-            render={({ field }) => (
-              <FormItem>
-                <FormLabel>E-posta</FormLabel>
-                <FormControl>
-                  <Input placeholder="johndoe@example.com" {...field} />
-                </FormControl>
-                <FormMessage />
-              </FormItem>
-            )}
-          />
-          <FormField
-            control={form.control}
-            name="password"
-            render={({ field }) => (
-              <FormItem>
-                <FormLabel>Şifre</FormLabel>
-                <FormControl>
-                  <Input type="password" placeholder="******" {...field} />
-                </FormControl>
-                <FormMessage />
-              </FormItem>
-            )}
-          />
-          <Button type="submit" className="w-full" disabled={isLoading}>
-            {isLoading ? "Kaydediliyor..." : "Kayıt Ol"}
-          </Button>
-        </form>
-      </Form>
-      <p className="mt-4 text-muted-foreground">
-        Zaten hesabınız var mı?{" "}
-        <Link href="/signin" className="text-primary hover:underline">
-          Giriş yap
-        </Link>
-      </p>
-    </motion.div>
+    <div className="container flex items-center justify-center min-h-[calc(100vh-12rem)] py-10">
+      <motion.div
+        initial={{ opacity: 0, y: 20 }}
+        animate={{ opacity: 1, y: 0 }}
+        transition={{ duration: 0.5 }}
+        className="w-full max-w-md"
+      >
+        <Card className="border-2">
+          <CardHeader className="space-y-1">
+            <CardTitle className="text-2xl font-bold text-center">Hesap Oluştur</CardTitle>
+            <CardDescription className="text-center">
+              Yeni bir hesap oluşturarak özetleme özelliklerine erişin
+            </CardDescription>
+          </CardHeader>
+          <CardContent>
+            <Form {...form}>
+              <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-4">
+                <FormField
+                  control={form.control}
+                  name="username"
+                  render={({ field }) => (
+                    <FormItem>
+                      <FormLabel>Kullanıcı Adı</FormLabel>
+                      <FormControl>
+                        <Input placeholder="kullaniciadi" {...field} />
+                      </FormControl>
+                      <FormMessage />
+                    </FormItem>
+                  )}
+                />
+                <FormField
+                  control={form.control}
+                  name="email"
+                  render={({ field }) => (
+                    <FormItem>
+                      <FormLabel>E-posta</FormLabel>
+                      <FormControl>
+                        <Input placeholder="ornek@email.com" {...field} />
+                      </FormControl>
+                      <FormMessage />
+                    </FormItem>
+                  )}
+                />
+                <FormField
+                  control={form.control}
+                  name="password"
+                  render={({ field }) => (
+                    <FormItem>
+                      <FormLabel>Şifre</FormLabel>
+                      <FormControl>
+                        <Input type="password" placeholder="******" {...field} />
+                      </FormControl>
+                      <FormMessage />
+                    </FormItem>
+                  )}
+                />
+                <Button type="submit" className="w-full" disabled={isLoading}>
+                  {isLoading ? (
+                    <>
+                      <Loader2 className="mr-2 h-4 w-4 animate-spin" />
+                      Kaydediliyor...
+                    </>
+                  ) : (
+                    "Kayıt Ol"
+                  )}
+                </Button>
+              </form>
+            </Form>
+          </CardContent>
+          <CardFooter>
+            <div className="mt-4 text-center text-sm w-full">
+              Zaten hesabınız var mı?{" "}
+              <Link href="/signin" className="text-blue-600 hover:underline">
+                Giriş yap
+              </Link>
+            </div>
+          </CardFooter>
+        </Card>
+      </motion.div>
+    </div>
   )
 }
 

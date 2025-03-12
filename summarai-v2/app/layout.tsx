@@ -2,11 +2,11 @@ import type React from "react"
 import type { Metadata } from "next"
 import { Inter } from "next/font/google"
 import "./globals.css"
-import { Navbar } from "@/components/Navbar"
-import { Footer } from "@/components/Footer"
-import { Toaster } from "@/components/ui/toaster"
-import { ThemeProvider } from "@/components/theme-provider"
-import { AuthProvider } from "@/contexts/auth-context"  // Add this import
+import { Navbar } from "@/app/components/Navbar"
+import { Footer } from "@/app/components/Footer"
+import { Toaster } from "@/app/components/ui/toaster"
+import { ThemeProvider } from "@/app/components/theme-provider"
+import { AuthProvider } from "@/app/contexts/auth-context"  // Add this import
 
 const inter = Inter({ subsets: ["latin"] })
 
