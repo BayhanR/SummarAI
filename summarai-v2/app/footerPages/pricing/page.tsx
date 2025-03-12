@@ -178,7 +178,7 @@ export default function PricingPage() {
             </CardContent>
             <CardFooter>
               <Button asChild className="w-full" variant="outline">
-                <Link href="/contact">Bizimle İletişime Geçin</Link>
+                <Link href="/footerPages/contact">Bizimle İletişime Geçin</Link>
               </Button>
             </CardFooter>
           </Card>

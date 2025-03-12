@@ -39,7 +39,8 @@ export function AuthProvider({ children }: { children: ReactNode }) {
 
       // Check if user exists in localStorage
       const users = JSON.parse(localStorage.getItem("users") || "[]")
-      const foundUser = users.find((u: any) => u.email === email && u.password === password)
+      type StoredUser = User & { password: string }
+      const foundUser = users.find((u: StoredUser) => u.email === email && u.password === password)
 
       if (foundUser) {
         const { password, ...userWithoutPassword } = foundUser

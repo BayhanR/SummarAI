@@ -41,9 +41,7 @@ export function Navbar() {
         <Link href="/" className="flex items-center gap-2">
           <div className="rounded-full bg-gradient-to-r from-blue-600 to-purple-600 p-1">
             <div className="h-6 w-6 rounded-full bg-background flex items-center justify-center">
-              <span className="font-bold text-transparent bg-clip-text bg-gradient-to-r from-blue-600 to-purple-600 text-sm">
-                S
-              </span>
+                <img src="/favicon.ico" alt="Summarai Logo" className="h-6 w-6 rounded-full" />
             </div>
           </div>
           <span className="font-bold text-xl">Summarai</span>

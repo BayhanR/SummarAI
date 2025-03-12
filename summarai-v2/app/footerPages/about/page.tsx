@@ -70,29 +70,21 @@ export default function AboutPage() {
                 çalışmaktadır.
               </p>
 
-              <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                 <div className="text-center">
                   <div className="w-24 h-24 rounded-full bg-gradient-to-r from-blue-600 to-purple-600 mx-auto mb-4 flex items-center justify-center">
-                    <span className="text-white text-2xl font-bold">AY</span>
+                    <span className="text-white text-2xl font-bold">FB</span>
                   </div>
-                  <h3 className="font-semibold">Ahmet Yılmaz</h3>
-                  <p className="text-sm text-muted-foreground">Kurucu & CEO</p>
+                  <h3 className="font-semibold">Furkan Bayhan</h3>
+                  <p className="text-sm text-muted-foreground">Kurucu & CEO & Bayhan</p>
                 </div>
 
                 <div className="text-center">
                   <div className="w-24 h-24 rounded-full bg-gradient-to-r from-blue-600 to-purple-600 mx-auto mb-4 flex items-center justify-center">
-                    <span className="text-white text-2xl font-bold">MK</span>
+                    <span className="text-white text-2xl font-bold">BA</span>
                   </div>
-                  <h3 className="font-semibold">Mehmet Kaya</h3>
-                  <p className="text-sm text-muted-foreground">CTO</p>
-                </div>
-
-                <div className="text-center">
-                  <div className="w-24 h-24 rounded-full bg-gradient-to-r from-blue-600 to-purple-600 mx-auto mb-4 flex items-center justify-center">
-                    <span className="text-white text-2xl font-bold">ZA</span>
-                  </div>
-                  <h3 className="font-semibold">Zeynep Aydın</h3>
-                  <p className="text-sm text-muted-foreground">Yapay Zeka Uzmanı</p>
+                  <h3 className="font-semibold">Burak Angun</h3>
+                  <p className="text-sm text-muted-foreground">CTO & Burak</p>
                 </div>
               </div>
             </CardContent>

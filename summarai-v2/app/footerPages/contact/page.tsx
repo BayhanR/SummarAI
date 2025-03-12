@@ -6,7 +6,7 @@ import { Button } from "@/app/components/ui/button"
 import { Input } from "@/app/components/ui/input"
 import { Textarea } from "@/app/components/ui/textarea"
 import { Card, CardContent } from "@/app/components/ui/card"
-import { toast } from "@/components/ui/use-toast"
+import { toast } from "@/app/hooks/use-toast"
 import { Loader2, Mail, Phone, MapPin } from "lucide-react"
 import { zodResolver } from "@hookform/resolvers/zod"
 import { useForm } from "react-hook-form"
@@ -188,7 +188,7 @@ export default function ContactPage() {
                   <Phone className="h-5 w-5 mr-3 text-blue-600 mt-0.5" />
                   <div>
                     <h3 className="font-medium">Telefon</h3>
-                    <p className="text-muted-foreground">+90 555 123 4567</p>
+                    <p className="text-muted-foreground">+90 506 140 4727</p>
                   </div>
                 </div>
 

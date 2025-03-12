@@ -21,17 +21,17 @@ export function Footer() {
                 </Link>
               </li>
               <li>
-                <Link href="/about" className="text-sm text-muted-foreground hover:text-primary">
+                <Link href="/footerPages/about" className="text-sm text-muted-foreground hover:text-primary">
                   Hakkımızda
                 </Link>
               </li>
               <li>
-                <Link href="/pricing" className="text-sm text-muted-foreground hover:text-primary">
+                <Link href="/footerPages/pricing" className="text-sm text-muted-foreground hover:text-primary">
                   Fiyatlandırma
                 </Link>
               </li>
               <li>
-                <Link href="/contact" className="text-sm text-muted-foreground hover:text-primary">
+                <Link href="/footerPages/contact" className="text-sm text-muted-foreground hover:text-primary">
                   İletişim
                 </Link>
               </li>
@@ -42,17 +42,17 @@ export function Footer() {
             <h3 className="font-bold text-lg mb-4">Yasal</h3>
             <ul className="space-y-2">
               <li>
-                <Link href="/terms" className="text-sm text-muted-foreground hover:text-primary">
+                <Link href="/footerPages/terms" className="text-sm text-muted-foreground hover:text-primary">
                   Kullanım Şartları
                 </Link>
               </li>
               <li>
-                <Link href="/privacy" className="text-sm text-muted-foreground hover:text-primary">
+                <Link href="/footerPages/privacy" className="text-sm text-muted-foreground hover:text-primary">
                   Gizlilik Politikası
                 </Link>
               </li>
               <li>
-                <Link href="/cookies" className="text-sm text-muted-foreground hover:text-primary">
+                <Link href="/footerPages/cookies" className="text-sm text-muted-foreground hover:text-primary">
                   Çerez Politikası
                 </Link>
               </li>
@@ -63,8 +63,8 @@ export function Footer() {
             <h3 className="font-bold text-lg mb-4">İletişim</h3>
             <ul className="space-y-2">
               <li className="text-sm text-muted-foreground">info@summarai.com</li>
-              <li className="text-sm text-muted-foreground">+90 555 123 4567</li>
-              <li className="text-sm text-muted-foreground">İstanbul, Türkiye</li>
+              <li className="text-sm text-muted-foreground">+90 506 140 4727</li>
+              <li className="text-sm text-muted-foreground">İzmir, Türkiye</li>
             </ul>
           </div>
         </div>

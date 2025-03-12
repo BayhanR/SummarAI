@@ -19,7 +19,7 @@ export default function PrivacyPage() {
           <p className="lead">Son güncelleme: 11 Mart 2023</p>
 
           <p>
-            Bu Gizlilik Politikası, Summarai'nin kişisel verilerinizi nasıl topladığını, kullandığını, paylaştığını ve
+            Bu Gizlilik Politikası, SummarAI&apos;nin kişisel verilerinizi nasıl topladığını, kullandığını, paylaştığını ve
             koruduğunu açıklar. Sitemizi kullanarak, bu politikada açıklanan uygulamaları kabul etmiş olursunuz.
           </p>
 
@@ -63,7 +63,7 @@ export default function PrivacyPage() {
               sağlayıcılarla (ödeme işlemcileri, hosting sağlayıcıları gibi).
             </li>
             <li>
-              <strong>Yasal Gereklilikler:</strong> Yasal bir yükümlülüğe uymak, Summarai'nin haklarını veya güvenliğini
+              <strong>Yasal Gereklilikler:</strong> Yasal bir yükümlülüğe uymak, Summarai&apos;nin haklarını veya güvenliğini
               korumak, yasadışı faaliyetleri önlemek veya soruşturmak için gerekli olduğunda.
             </li>
             <li>
