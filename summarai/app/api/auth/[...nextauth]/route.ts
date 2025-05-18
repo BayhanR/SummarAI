@@ -23,9 +23,11 @@ const authOptions: AuthOptions = {
           throw new Error('Lütfen email ve şifre giriniz');
         }
 
+        const normalizedEmail = credentials.email.toLowerCase();
+
         const user = await prisma.user.findUnique({
           where: {
-            email: credentials.email
+            email: normalizedEmail
           },
           select: {
             id: true,
@@ -69,7 +71,8 @@ const authOptions: AuthOptions = {
     })
   ],
   session: {
-    strategy: "jwt"
+    strategy: "jwt",
+    maxAge: 7 * 24 * 60 * 60 // 7 gün
   },
   pages: {
     signIn: "/signin",
@@ -81,6 +84,7 @@ const authOptions: AuthOptions = {
         return {
           ...token,
           id: user.id,
+          accessToken: token.jti,
         };
       }
       return token;
@@ -91,6 +95,7 @@ const authOptions: AuthOptions = {
         user: {
           ...session.user,
           id: token.id,
+          accessToken: token.accessToken,
         },
       };
     },

@@ -11,7 +11,10 @@ export async function POST(request: Request) {
     const body = await request.json();
     const { email, name, password } = body;
 
-    console.log('Gelen kayıt bilgileri:', { email, name, hasPassword: !!password });
+    // E-posta adresini küçük harfe çevir
+    const normalizedEmail = email.toLowerCase();
+
+    console.log('Gelen kayıt bilgileri:', { email: normalizedEmail, name, hasPassword: !!password });
 
     if (!email || !name || !password) {
       return new NextResponse("Eksik bilgi", { status: 400 });
@@ -19,7 +22,7 @@ export async function POST(request: Request) {
 
     const existingUser = await prisma.user.findUnique({
       where: {
-        email
+        email: normalizedEmail
       }
     });
 
@@ -31,7 +34,7 @@ export async function POST(request: Request) {
     const verificationToken = crypto.randomBytes(32).toString('hex');
 
     console.log('Kullanıcı oluşturuluyor:', {
-      email,
+      email: normalizedEmail,
       name,
       hashedPassword: !!hashedPassword,
       verificationToken: !!verificationToken
@@ -39,7 +42,7 @@ export async function POST(request: Request) {
 
     const user = await prisma.user.create({
       data: {
-        email,
+        email: normalizedEmail,
         name,
         hashedPassword,
         verificationToken,
@@ -52,7 +55,7 @@ export async function POST(request: Request) {
     console.log('Kullanıcı oluşturuldu:', { userId: user.id });
 
     try {
-      await sendVerificationEmail(email, verificationToken);
+      await sendVerificationEmail(normalizedEmail, verificationToken);
       console.log('Doğrulama e-postası gönderildi');
     } catch (emailError) {
       console.error('E-posta gönderme hatası:', emailError);

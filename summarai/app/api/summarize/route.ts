@@ -9,7 +9,7 @@ export async function POST(request: Request) {
     
     if (!session?.user?.email) {
       return NextResponse.json({ 
-        error: 'Oturum açmanız gerekiyor',
+        error: 'Özet oluşturmak için lütfen giriş yapın',
         redirectTo: '/signin'
       }, { status: 401 });
     }
@@ -64,8 +64,23 @@ export async function POST(request: Request) {
       return NextResponse.json({ error: 'Özetlenecek metin gerekli' }, { status: 400 });
     }
 
-    // Burada API'den özet alınacak
-    const summary = "API'den gelen özet"; // Bu kısmı daha sonra gerçek API ile değiştireceğiz
+    // API'den özet al
+    const apiResponse = await fetch('https://dd72-149-140-77-95.ngrok-free.app/summarize', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+        'ngrok-skip-browser-warning': 'true'
+      },
+      body: JSON.stringify({
+        text: content
+      })
+    });
+
+    const data = await apiResponse.json();
+
+    if (!apiResponse.ok) {
+      throw new Error(data.error || 'API hatası');
+    }
 
     // Kullanım sayısını artır
     await prisma.user.update({
@@ -81,11 +96,12 @@ export async function POST(request: Request) {
       data: {
         userId: user.id,
         content: content,
-        result: summary
+        result: data.summary,
+        language: data.language || 'tr'
       }
     });
 
-    return NextResponse.json({ summary });
+    return NextResponse.json(data);
   } catch (error) {
     console.error('Özet oluşturma hatası:', error);
     return NextResponse.json({ error: 'Özet oluşturulurken bir hata oluştu' }, { status: 500 });

@@ -1,0 +1,30 @@
+{
+  "manifest_version": 3,
+  "name": "SummarAI - Metin Özetleyici",
+  "description": "Seçili metni SummarAI ile özetleyin",
+  "version": "1.0",
+  "icons": {
+    "16": "icons/icon16.png",
+    "48": "icons/icon48.png",
+    "128": "icons/icon128.png"
+  },
+  "permissions": [
+    "contextMenus",
+    "activeTab"
+  ],
+  "background": {
+    "scripts": ["background.js"]
+  },
+  "content_scripts": [
+    {
+      "matches": ["<all_urls>"],
+      "js": ["content.js"]
+    }
+  ],
+  "browser_specific_settings": {
+    "gecko": {
+      "id": "extension@summarai.com",
+      "strict_min_version": "109.0"
+    }
+  }
+} 

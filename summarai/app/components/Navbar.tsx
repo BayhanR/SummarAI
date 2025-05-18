@@ -6,6 +6,7 @@ import { Button } from "@/app/components/ui/button"
 import { History, User } from "lucide-react"
 import { signOut } from "next-auth/react"
 import { useRouter } from "next/navigation"
+import { ThemeToggle } from "./ThemeToggle"
 
 export function Navbar() {
   const { data: session } = useSession()
@@ -22,6 +23,7 @@ export function Navbar() {
         </Link>
 
         <div className="ml-auto flex items-center space-x-4">
+          <ThemeToggle />
           {session?.user ? (
             <>
               <Button
@@ -37,11 +39,16 @@ export function Navbar() {
               <Button 
                 variant="outline" 
                 size="sm" 
-                className="flex items-center"
+                className="flex items-center group relative overflow-hidden hover:border-red-500 transition-colors duration-300"
                 onClick={() => signOut({ callbackUrl: "/" })}
               >
-                <User className="h-5 w-5 mr-2" />
-                {session.user.name || "Kullanıcı"}
+                <span className="flex items-center group-hover:translate-y-[-30px] transition-transform duration-300">
+                  <User className="h-5 w-5 mr-2" />
+                  {session.user.name || "Kullanıcı"}
+                </span>
+                <span className="absolute inset-0 flex items-center justify-center translate-y-[30px] group-hover:translate-y-0 transition-transform duration-300 text-red-500">
+                  Çıkış Yap
+                </span>
               </Button>
             </>
           ) : (
