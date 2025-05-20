@@ -1,0 +1,31 @@
+#summarai-button {
+    transition: all 0.2s ease-in-out;
+}
+
+#summarai-button:hover {
+    transform: scale(1.05);
+    box-shadow: 0 4px 8px rgba(0,0,0,0.2);
+}
+
+#summarai-summary {
+    font-family: Arial, sans-serif;
+    line-height: 1.5;
+}
+
+#summarai-summary h3 {
+    color: #333;
+    margin-bottom: 15px;
+}
+
+#summarai-summary p {
+    color: #444;
+    margin-bottom: 20px;
+}
+
+#summarai-summary button {
+    transition: background-color 0.2s ease;
+}
+
+#summarai-summary button:hover {
+    background-color: #45a049 !important;
+} 

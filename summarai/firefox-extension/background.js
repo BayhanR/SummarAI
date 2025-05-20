@@ -1,21 +1,21 @@
-// Sağ tık menüsü oluştur
+// Eklenti yüklendiğinde
 browser.runtime.onInstalled.addListener(() => {
-  browser.contextMenus.create({
-    id: "summarizeText",
-    title: "Seçili Metni Özetle",
-    contexts: ["selection"]
-  });
+    console.log('SummarAI eklentisi yüklendi');
 });
 
-// Menü tıklamasını dinle
-browser.contextMenus.onClicked.addListener((info) => {
-  if (info.menuItemId === "summarizeText") {
-    // Seçili metni Base64 ile encode et
-    const selectedText = info.selectionText;
-    const encodedText = btoa(unescape(encodeURIComponent(selectedText)));
-    const summaraiUrl = `http://localhost:3000?t=${encodedText}&autoSummarize=true`;
-    
-    // Yeni sekmede aç
-    browser.tabs.create({ url: summaraiUrl });
-  }
+// Sağ tık menüsü oluştur
+browser.contextMenus.create({
+    id: "summarize-text",
+    title: "Metni SummarAI ile özetle",
+    contexts: ["selection"]
+});
+
+// Sağ tık menüsüne tıklandığında
+browser.contextMenus.onClicked.addListener((info, tab) => {
+    if (info.menuItemId === "summarize-text") {
+        browser.tabs.sendMessage(tab.id, {
+            action: "summarize",
+            text: info.selectionText
+        });
+    }
 }); 
