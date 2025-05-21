@@ -1,18 +1,24 @@
 import nodemailer from 'nodemailer';
+import { env } from './config';
 
 // Mailtrap için transporter oluşturma
 export const transporter = nodemailer.createTransport({
   host: "sandbox.smtp.mailtrap.io",
   port: 2525,
   auth: {
-    user: process.env.MAILTRAP_USER,
-    pass: process.env.MAILTRAP_PASS
+    user: env.MAILTRAP_USER,
+    pass: env.MAILTRAP_PASS
   }
 });
 
 // E-posta doğrulama maili gönderme fonksiyonu
 export const sendVerificationEmail = async (email: string, token: string) => {
-  const verificationLink = `${process.env.NEXTAUTH_URL}/verify-email?token=${token}`;
+  console.log('E-posta gönderiliyor...', {
+    hasUser: !!env.MAILTRAP_USER,
+    hasPass: !!env.MAILTRAP_PASS
+  });
+
+  const verificationLink = `${env.NEXTAUTH_URL}/verify-email?token=${token}`;
 
   const mailOptions = {
     from: '"SummarAI 👻" <dogrulama@summarai.com>',
@@ -36,10 +42,12 @@ export const sendVerificationEmail = async (email: string, token: string) => {
   };
 
   try {
-    await transporter.sendMail(mailOptions);
+    console.log('Mail gönderme denemesi başlıyor...');
+    const info = await transporter.sendMail(mailOptions);
+    console.log('Mail gönderildi:', info);
     return { success: true };
   } catch (error) {
     console.error('E-posta gönderme hatası:', error);
     return { success: false, error };
   }
-}; 
+};

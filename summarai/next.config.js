@@ -1,11 +1,12 @@
 /** @type {import('next').NextConfig} */
 const nextConfig = {
-  typescript: {
-    ignoreBuildErrors: true,
+  output: 'standalone',
+  experimental: {
+    serverActions: true,
   },
-  eslint: {
-    ignoreDuringBuilds: true,
-  },
+  async headers() {
+    return [];
+  }
 };
 
 module.exports = nextConfig;
