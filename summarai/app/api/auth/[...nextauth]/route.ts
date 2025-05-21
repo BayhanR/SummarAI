@@ -10,6 +10,7 @@ const prisma = new PrismaClient();
 const authOptions: AuthOptions = {
   adapter: PrismaAdapter(prisma),
   secret: process.env.NEXTAUTH_SECRET,
+  debug: process.env.NODE_ENV === 'development',
   providers: [
     CredentialsProvider({
       name: "credentials",
@@ -18,12 +19,15 @@ const authOptions: AuthOptions = {
         password: { label: "Şifre", type: "password" }
       },
       async authorize(credentials) {
+        console.log('Auth işlemi başlatıldı');
+        
         if (!credentials?.email || !credentials?.password) {
           console.log('Credentials eksik:', { email: !!credentials?.email, password: !!credentials?.password });
           throw new Error('Lütfen email ve şifre giriniz');
         }
 
         const normalizedEmail = credentials.email.toLowerCase();
+        console.log('Email normalize edildi:', normalizedEmail);
 
         const user = await prisma.user.findUnique({
           where: {
@@ -38,9 +42,10 @@ const authOptions: AuthOptions = {
           }
         });
 
-        console.log('Bulunan kullanıcı:', { 
+        console.log('Kullanıcı sorgusu sonucu:', { 
           found: !!user,
-          hasPassword: !!user?.hashedPassword
+          hasPassword: !!user?.hashedPassword,
+          isVerified: !!user?.emailVerified
         });
 
         if (!user || !user.hashedPassword) {
@@ -56,12 +61,14 @@ const authOptions: AuthOptions = {
           user.hashedPassword
         );
 
-        console.log('Şifre eşleşmesi:', { passwordMatch });
+        console.log('Şifre kontrolü:', { passwordMatch });
 
         if (!passwordMatch) {
           throw new Error('Hatalı şifre');
         }
 
+        console.log('Giriş başarılı, kullanıcı döndürülüyor');
+        
         return {
           id: user.id,
           email: user.email,
@@ -81,6 +88,7 @@ const authOptions: AuthOptions = {
   callbacks: {
     async jwt({ token, user }) {
       if (user) {
+        console.log('JWT oluşturuluyor:', { userId: user.id });
         return {
           ...token,
           id: user.id,
@@ -90,6 +98,7 @@ const authOptions: AuthOptions = {
       return token;
     },
     async session({ session, token }) {
+      console.log('Session oluşturuluyor');
       return {
         ...session,
         user: {
