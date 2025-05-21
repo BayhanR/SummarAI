@@ -26,6 +26,8 @@ interface ApiResponse {
 interface UserStats {
   dailyUsage: number;
   emailVerified: boolean;
+  userType?: string;
+  dailyLimit?: number;
 }
 
 export default function Home() {
@@ -208,7 +210,23 @@ export default function Home() {
           transition={{ duration: 0.5, delay: 0.2 }}
           className="bg-muted/50 rounded-lg px-4 py-2 text-sm text-muted-foreground"
         >
-          Kalan özet hakkı: {userStats.emailVerified ? 5 - userStats.dailyUsage : 1 - userStats.dailyUsage}
+          {userStats.userType === "pro" ? (
+            <div className="flex items-center">
+              <span className="bg-primary text-primary-foreground text-xs px-2 py-0.5 rounded-md mr-2 font-medium">PRO</span>
+              Kalan özet hakkı: <span className="font-semibold mx-1">{userStats.dailyLimit && userStats.dailyUsage !== undefined ? userStats.dailyLimit - userStats.dailyUsage : 50 - userStats.dailyUsage}</span>
+              / {userStats.dailyLimit || 50}
+            </div>
+          ) : (
+            <div className="flex flex-col sm:flex-row sm:items-center gap-2">
+              <div>
+                Kalan özet hakkı: <span className="font-medium">{userStats.dailyLimit && userStats.dailyUsage !== undefined ? userStats.dailyLimit - userStats.dailyUsage : (userStats.emailVerified ? 5 - userStats.dailyUsage : 1 - userStats.dailyUsage)}</span>
+                / {userStats.dailyLimit || (userStats.emailVerified ? 5 : 1)}
+              </div>
+              <Button variant="link" className="p-0 h-auto text-xs text-primary underline decoration-dotted" onClick={() => router.push('/footerPages/pricing')}>
+                Pro&apos;ya yükselt
+              </Button>
+            </div>
+          )}
         </motion.div>
       )}
 

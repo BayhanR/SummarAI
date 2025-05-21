@@ -20,7 +20,8 @@ export async function POST(request: Request) {
         id: true,
         emailVerified: true,
         dailyUsage: true,
-        lastUsageDate: true
+        lastUsageDate: true,
+        userType: true
       }
     });
 
@@ -50,11 +51,14 @@ export async function POST(request: Request) {
       }, { status: 403 });
     }
 
-    // E-posta doğrulanmış ve 5 kullanım hakkını doldurmuşsa
-    if (user.emailVerified && user.dailyUsage >= 5) {
+    // Kullanıcı tipine göre günlük limit kontrolü
+    const dailyLimit = user.userType === "pro" ? 50 : 5;
+    
+    // Günlük limit kontrolü
+    if (user.dailyUsage >= dailyLimit) {
       return NextResponse.json({
-        error: 'Günlük özet hakkınız doldu',
-        redirectTo: '/footerPages/pricing'
+        error: `Günlük özet hakkınız doldu. ${user.userType === "basic" ? "Pro üyeliğe geçerek günlük 50 özet hakkına sahip olabilirsiniz." : ""}`,
+        redirectTo: user.userType === "basic" ? '/footerPages/pricing' : undefined
       }, { status: 403 });
     }
 

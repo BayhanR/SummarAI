@@ -22,7 +22,7 @@ const pricingPlans = [
   },
   {
     name: "Pro",
-    price: "99₺/ay",
+    price: "49₺/ay",
     description: "Profesyonel kullanım için",
     features: [
       "Günlük 50 özet hakkı",
@@ -34,7 +34,8 @@ const pricingPlans = [
     ],
     buttonText: "Pro'ya Yükselt",
     disabled: false,
-    highlight: true
+    highlight: true,
+    href: "/payment/plans"
   },
   {
     name: "Kurumsal",

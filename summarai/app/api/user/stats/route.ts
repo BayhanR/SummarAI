@@ -16,7 +16,8 @@ export async function GET() {
       select: {
         emailVerified: true,
         dailyUsage: true,
-        lastUsageDate: true
+        lastUsageDate: true,
+        userType: true
       }
     });
 
@@ -38,9 +39,14 @@ export async function GET() {
       user.dailyUsage = 0;
     }
 
+    // Pro kullanıcının günlük limit sayısı
+    const dailyLimit = user.userType === "pro" ? 50 : 5;
+
     return NextResponse.json({
       dailyUsage: user.dailyUsage,
-      emailVerified: !!user.emailVerified
+      emailVerified: !!user.emailVerified,
+      userType: user.userType,
+      dailyLimit: dailyLimit
     });
   } catch (error) {
     console.error('Kullanıcı istatistikleri alınırken hata:', error);
