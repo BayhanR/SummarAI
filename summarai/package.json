@@ -18,6 +18,8 @@
     "@radix-ui/react-label": "^2.1.2",
     "@radix-ui/react-slot": "^1.1.2",
     "@radix-ui/react-toast": "^1.2.6",
+    "@stripe/react-stripe-js": "^3.7.0",
+    "@stripe/stripe-js": "^7.3.0",
     "@types/axios": "^0.9.36",
     "@types/nodemailer": "^6.4.17",
     "axios": "^1.9.0",
@@ -36,6 +38,7 @@
     "react-hook-form": "^7.54.2",
     "react-icons": "^5.5.0",
     "resend": "^4.5.1",
+    "stripe": "^18.1.1",
     "tailwind-merge": "^3.0.2",
     "tailwindcss-animate": "^1.0.7",
     "zod": "^3.24.2"

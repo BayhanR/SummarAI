@@ -64,11 +64,18 @@ export default function Home() {
       return;
     }
 
+    // Metindeki fazla boşlukları temizle
+    // Birden fazla satır boşluğunu tek satıra indirir
+    // Birden fazla boşluğu tek boşluğa indirir
+    const cleanedText = inputText
+      .replace(/(\r\n|\n|\r){2,}/g, '\n')  // Birden fazla satır sonunu tek satır yapar
+      .replace(/[ \t]{2,}/g, ' ');         // Birden fazla boşluğu tek boşluk yapar
+
     setIsLoading(true);
 
     try {
       const result = await axios.post<ApiResponse>('/api/summarize', {
-        content: inputText
+        content: cleanedText
       });
 
       if (result.data.detail) {
@@ -173,7 +180,8 @@ export default function Home() {
         title: "Yapıştırıldı",
         description: "Metin panodan yapıştırıldı.",
       })
-    } catch (error) {
+    } catch (err) {
+      console.error('Pano hatası:', err);
       toast({
         title: "Hata",
         description: "Panodan metin yapıştırılırken bir hata oluştu.",

@@ -65,7 +65,7 @@ export async function POST(request: Request) {
     }
 
     // API'den özet al
-    const apiResponse = await fetch('https://dd72-149-140-77-95.ngrok-free.app/summarize', {
+    const apiResponse = await fetch('https://ad36-95-2-45-184.ngrok-free.app/summarize', {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
