@@ -3,26 +3,27 @@ generator client {
 }
 
 datasource db {
-  provider = "postgresql"
-  url      = env("DATABASE_URL")
+  provider  = "postgresql"
+  url       = env("POSTGRES_PRISMA_URL")
+  directUrl = env("POSTGRES_URL_NON_POOLING")
 }
 
 model User {
-  id            String    @id @default(cuid())
-  email         String?   @unique
-  name          String    // Kullanıcı adını zorunlu yapıyoruz
-  createdAt     DateTime  @default(now())
-  updatedAt     DateTime  @updatedAt
-  emailVerified DateTime?
-  image         String?
-  hashedPassword String?
-  verificationToken String? @unique
-  userType      String    @default("basic") // basic veya pro
-  dailyUsage    Int       @default(0) // Günlük kullanım sayısı
-  lastUsageDate DateTime  @default(now()) // Son kullanım tarihi
-  accounts      Account[]
-  sessions      Session[]
-  summaries     Summary[]
+  id                String    @id @default(cuid())
+  email             String?   @unique
+  name              String // Kullanıcı adını zorunlu yapıyoruz
+  createdAt         DateTime  @default(now())
+  updatedAt         DateTime  @updatedAt
+  emailVerified     DateTime?
+  image             String?
+  hashedPassword    String?
+  verificationToken String?   @unique
+  userType          String    @default("basic") // basic veya pro
+  dailyUsage        Int       @default(0) // Günlük kullanım sayısı
+  lastUsageDate     DateTime  @default(now()) // Son kullanım tarihi
+  accounts          Account[]
+  sessions          Session[]
+  summaries         Summary[]
 }
 
 model Account {
