@@ -50,4 +50,4 @@ export const sendVerificationEmail = async (email: string, token: string) => {
     console.error('E-posta gönderme hatası:', error);
     return { success: false, error };
   }
-};
+}; 

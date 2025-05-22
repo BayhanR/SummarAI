@@ -69,7 +69,7 @@ const authOptions: AuthOptions = {
         }
 
         console.log('Giriş başarılı, kullanıcı döndürülüyor');
-        
+
         return {
           id: user.id,
           email: user.email,
