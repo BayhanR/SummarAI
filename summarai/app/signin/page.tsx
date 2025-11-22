@@ -44,7 +44,7 @@ export default function SignInPage() {
       toast({
         title: "E-posta Doğrulandı!",
         description: "E-posta adresiniz başarıyla doğrulandı. Şimdi giriş yapabilirsiniz.",
-        variant: "success"
+        variant: "default"
       });
     }
   }, [isVerified]);

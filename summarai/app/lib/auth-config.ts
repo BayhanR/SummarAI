@@ -1,18 +1,16 @@
 import { PrismaAdapter } from "@auth/prisma-adapter";
-import { PrismaClient } from "@prisma/client";
-import CredentialsProvider from "next-auth/providers/credentials";
-import { AuthOptions } from "next-auth";
+import prisma from "@/app/lib/prisma";
+import Credentials from "next-auth/providers/credentials";
+import type { NextAuthConfig } from "next-auth";
 import bcrypt from "bcryptjs";
 import { env } from "@/app/lib/config";
 
-const prisma = new PrismaClient();
-
-export const authOptions: AuthOptions = {
-  adapter: PrismaAdapter(prisma),
+export const authConfig: NextAuthConfig = {
+  adapter: PrismaAdapter(prisma) as any,
   secret: env.NEXTAUTH_SECRET,
   debug: process.env.NODE_ENV === 'development',
   providers: [
-    CredentialsProvider({
+    Credentials({
       name: "credentials",
       credentials: {
         email: { label: "Email", type: "text" },
@@ -24,7 +22,7 @@ export const authOptions: AuthOptions = {
           console.log('Credentials eksik:', { email: !!credentials?.email, password: !!credentials?.password });
           throw new Error('Lütfen email ve şifre giriniz');
         }
-        const normalizedEmail = credentials.email.toLowerCase();
+        const normalizedEmail = (credentials.email as string).toLowerCase();
         console.log('Email normalize edildi:', normalizedEmail);
         const user = await prisma.user.findUnique({
           where: { email: normalizedEmail },
@@ -43,7 +41,7 @@ export const authOptions: AuthOptions = {
         if (!user.emailVerified) {
           throw new Error('Lütfen önce e-posta adresinizi doğrulayın');
         }
-        const passwordMatch = await bcrypt.compare(credentials.password, user.hashedPassword);
+        const passwordMatch = await bcrypt.compare(credentials.password as string, user.hashedPassword);
         console.log('Şifre kontrolü:', { passwordMatch });
         if (!passwordMatch) {
           throw new Error('Hatalı şifre');
@@ -83,10 +81,11 @@ export const authOptions: AuthOptions = {
         ...session,
         user: {
           ...session.user,
-          id: token.id,
-          accessToken: token.accessToken,
+          id: token.id as string,
+          accessToken: token.accessToken as string,
         },
       };
     },
   },
 };
+

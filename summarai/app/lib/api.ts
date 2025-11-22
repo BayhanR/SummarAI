@@ -16,12 +16,11 @@ api.interceptors.request.use(async (config: InternalAxiosRequestConfig) => {
     throw new Error('Oturum bulunamadı. Lütfen giriş yapın.');
   }
 
-  if (!config.headers) {
-    config.headers = {};
-  }
-
   // Session token'ı ekle
-  config.headers.Authorization = `Bearer ${session.user?.token}`;
+  if (config.headers && session.user) {
+    const user = session.user as any;
+    config.headers.Authorization = `Bearer ${user.accessToken || ''}`;
+  }
   
   return config;
 });

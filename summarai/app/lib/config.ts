@@ -9,9 +9,9 @@ const envSchema = z.object({
   NEXTAUTH_SECRET: z.string().min(1),
   NEXTAUTH_URL: z.string().url(),
   
-  // Mailtrap
-  MAILTRAP_USER: z.string().min(1),
-  MAILTRAP_PASS: z.string().min(1),
+  // Resend
+  RESEND_API_KEY: z.string().min(1),
+  RESEND_FROM_EMAIL: z.string().email().optional(),
 });
 
 export function validateEnv() {
